@@ -1,36 +1,36 @@
-// Write your C++ code here
-// Write your C++ code here
 #include <iostream>
 #include <vector>
-#include <unordered_map>
+#include <algorithm>
 using namespace std;
 
-vector<int> twoSum(vector<int>& nums, int target) {
-    unordered_map<int, int> mp;  // value -> index
+// Function to check if x is a majority element
+bool isMajorityElement(const vector<int>& arr, int x) {
+    int n = arr.size();
+    // Use lower_bound to find first occurrence
+    auto it = lower_bound(arr.begin(), arr.end(), x);
+    if (it == arr.end() || *it != x) return false;
 
-    for (int i = 0; i < nums.size(); i++) {
-        int complement = target - nums[i];
+    int firstIndex = it - arr.begin();
+    int lastIndex = upper_bound(arr.begin(), arr.end(), x) - arr.begin() - 1;
+    int count = lastIndex - firstIndex + 1;
 
-        if (mp.find(complement) != mp.end()) {
-            return {mp[complement], i};  // Found the pair
-        }
-
-        mp[nums[i]] = i;
-    }
-
-    return {};  // No solution
+    return count > (n / 2);
 }
 
 int main() {
-    vector<int> nums = {2, 7, 11, 15};
-    int target = 9;
+    int N;
+    cin >> N;
 
-    vector<int> result = twoSum(nums, target);
-    if (!result.empty()) {
-        cout << "[" << result[0] << "," << result[1] << "]" << endl;
-    } else {
-        cout << "No valid pair found!" << endl;
+    vector<int> arr(N);
+    for (int i = 0; i < N; ++i) {
+        cin >> arr[i];
     }
+
+    int x;
+    cin >> x;
+
+    bool result = isMajorityElement(arr, x);
+    cout << (result ? "True" : "False") << endl;
 
     return 0;
 }
